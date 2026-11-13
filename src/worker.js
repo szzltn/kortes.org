@@ -222,8 +222,20 @@ async function handlePosts(env, url) {
   }
 }
 
+function noindex(res) {
+  const r = new Response(res.body, res);
+  r.headers.set("X-Robots-Tag", "noindex, nofollow, noarchive, noai, noimageai");
+  return r;
+}
+
 export default {
   async fetch(request, env) {
+    return noindex(await route(request, env));
+  },
+};
+
+async function route(request, env) {
+  {
     const url = new URL(request.url);
     const p = url.pathname;
     if (p === "/api/login") return handleLogin(request, env);
@@ -232,5 +244,5 @@ export default {
     if (p === "/logout") return logout();
     if (p === "/client" || p.startsWith("/client/")) return handleClient(request, env, url);
     return env.ASSETS.fetch(request);
-  },
-};
+  }
+}
