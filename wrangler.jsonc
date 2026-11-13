@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "kortes",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*", "/client", "/client/*", "/logout"]
+  },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "kortes", "database_id": "87a949d7-df40-4476-bf0e-0a53635ebe79", "migrations_dir": "migrations" }
+  ],
+  "kv_namespaces": [
+    { "binding": "PRIVATE", "id": "559444ea4f9749bf8b699622013c4d22" }
+  ],
+  "vars": {
+    "SUBSTACK_FEED": ""
+  },
+  "observability": { "enabled": true }
+}
